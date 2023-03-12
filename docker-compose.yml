@@ -4,6 +4,9 @@ services:
   web:
     build: .
     command: php -S 0.0.0.0:8888
+    environment:
+      MONGO_USERNAME: ${MONGO_USERNAME}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
     volumes: 
       - ./src:/code
     ports:

@@ -19,10 +19,6 @@
         </div>
     </div>
 
-    <div class="container pt-3">
-        <a href="/" class="btn btn-outline-primary"><i class="bi bi-house"></i>Home</a>
-    </div>
-
     {% block content %}
     {% endblock content %}
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
@@ -35,6 +31,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
         crossorigin="anonymous"></script>
+
+    {% block scripts %}
+    {% endblock scripts %}
 </body>
 
 </html>

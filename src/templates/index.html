@@ -6,30 +6,131 @@ Home
 <div class="container py-3">
     <h1>Welcome</h1>
     <p>Please enter your details in the form below.</p>
-    <form method="post" class="my-3 p-3 border bg-light">
+    <div id="errors">
+        {% if code == 1 %}
+        <div class="alert alert-success" role="alert">
+            <i class="bi bi-check-circle-fill"></i> <span class="fw-bold"> Operation complete! </span> {{message}}
+        </div>
+        {% elseif code == -1 %}
+        <div class="alert alert-danger" role="alert">
+            <i class="bi bi-x-circle-fill"></i> <span class="fw-bold"> Operation failed! </span> {{message}}
+        </div>
+        {% endif %}
+    </div>
+    <form method="post" class="my-3 p-3 border bg-light" id="person_form">
         <div class="row">
-            
+
             <div class="form-group col-md-6">
                 <label class="form-label" for="id_number">ID number</label>
-                <input type="number" id="id_number" name="id_number" class="form-control" placeholder="ID Number" required/>
+                <input onchange="fetchPerson(event)" type="text" id="id_number" name="id_number" pattern="^[0-9]{13}$"
+                    class="form-control" placeholder="ID Number" required />
+                <small class="text-muted">A valid ID number has got 13 characters</small>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="form-label" for="first_name">First name</label>
-                    <input type="text" id="first_name" name="first_name" class="form-control" placeholder="Firstname" required />
+                    <input type="text" id="first_name" name="first_name" class="form-control" placeholder="First name"
+                        required />
                 </div>
             </div>
             <div class="form-group col-md-6">
                 <label class="form-label" for="last_name">Last name</label>
-                <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Lastname" required/>
+                <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last name"
+                    required />
             </div>
             <div class="form-group col-md-6">
                 <label class="form-label" for="date_of_birth">Date of birth</label>
                 <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" />
             </div>
         </div>
-        <button class="btn btn-primary mt-3 me-2" type="submit"><i class="bi bi-check-circle-fill"></i> Post</button>  
-        <button class="btn btn-outline-danger mt-3 me-2" type="button" onclick="resetForm()"><i class="bi bi-x-circle-fill"></i> Cancel</button>
+
+        <div class="row">
+            <div class="col-6">
+                <button class="btn btn-primary mt-3 me-2" id="submit_btn" type="submit"><i
+                        class="bi bi-check-circle-fill"></i>
+                    Post</button>
+            </div>
+            <div class="col-6 text-end">
+                <button onclick="resetForm()" class="btn btn-outline-danger mt-3" id="cancel_btn" type="button"
+                    onclick="resetForm()"><i class="bi bi-x-circle-fill"></i> Cancel</button>
+            </div>
+        </div>
     </form>
 </div>
 {% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+    function fetchPerson(event) {
+
+        const id_number = event.target.value;
+
+        if (!id_number) return;
+
+        $('#first_name').prop('disabled', true);
+        $('#last_name').prop('disabled', true);
+        $('#date_of_birth').prop('disabled', true);
+        $('#submit_btn').prop('disabled', true);
+        $('#cancel_btn').prop('disabled', true);
+
+        $.ajax({
+            url: `/people/${id_number}`,
+            success: function (data) {
+                const { person } = data;
+
+                if (person) {
+
+                    $('#first_name').prop('disabled', false);
+                    $('#first_name').val(person.first_name);
+
+                    $('#last_name').prop('disabled', false);
+                    $('#last_name').val(person.last_name);
+
+                    $('#date_of_birth').prop('disabled', false);
+                    $('#date_of_birth').val(person.date_of_birth);
+
+                    // Keep the submit button disabled and only enable cancel button
+                    $('#cancel_btn').prop('disabled', false);
+
+                } else {
+                    $('#first_name').prop('disabled', false);
+                    $('#first_name').val('');
+
+                    $('#last_name').prop('disabled', false);
+                    $('#last_name').val('');
+
+                    $('#date_of_birth').prop('disabled', false);
+                    $('#date_of_birth').val('');
+
+                    $('#submit_btn').prop('disabled', false);
+                    $('#cancel_btn').prop('disabled', false);
+
+                }
+            },
+            error: function (error) {
+
+                $('#first_name').prop('disabled', false);
+                $('#last_name').prop('disabled', false);
+                $('#date_of_birth').prop('disabled', false);
+                $('#submit_btn').prop('disabled', false);
+                $('#cancel_btn').prop('disabled', false);
+
+                console.error("Error fetching employee", error);
+                const errors = document.querySelector('#errors');
+                if (errors) {
+                    errors.innerHTML = `
+                    <div class="alert alert-warning" role="alert">
+                       <span class="fw-bold"> Info! </span> Could not check if you ID exists in our system.
+                    </div>
+                    `;
+                }
+            }
+        });
+    }
+
+    function resetForm() {
+        $('#person_form').trigger("reset");
+        $('#submit_btn').prop('disabled', false);
+    }
+</script>
+{% endblock scripts %}
