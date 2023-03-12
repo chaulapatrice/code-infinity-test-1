@@ -3,7 +3,33 @@
 Home
 {% endblock %}
 {% block content %}
-<div class="container py-3 border-bottom">
+<div class="container py-3">
     <h1>Welcome</h1>
+    <p>Please enter your details in the form below.</p>
+    <form method="post" class="my-3 p-3 border bg-light">
+        <div class="row">
+            
+            <div class="form-group col-md-6">
+                <label class="form-label" for="id_number">ID number</label>
+                <input type="text" id="id_number" name="id_number" class="form-control" placeholder="ID Number" required/>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-label" for="first_name">First name</label>
+                    <input type="text" id="first_name" name="first_name" class="form-control" placeholder="Firstname" required />
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="form-label" for="last_name">Last name</label>
+                <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Lastname" required/>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="form-label" for="date_of_birth">Date of birth</label>
+                <input type="date" id="date_of_birth" name="date_of_birth" class="form-control" />
+            </div>
+        </div>
+        <button class="btn btn-primary mt-3 me-2" type="submit"><i class="bi bi-check-circle-fill"></i> Post</button>  
+        <button class="btn btn-outline-danger mt-3 me-2" type="button" onclick="resetForm()"><i class="bi bi-x-circle-fill"></i> Cancel</button>
+    </form>
 </div>
 {% endblock %}
