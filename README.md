@@ -2,7 +2,7 @@
 
 ### 1. Clone 
 ```
-git clone git@github.com:chaulapatrice/code-infinity-test-1.git
+git clone https://github.com/chaulapatrice/code-infinity-test-1.git
 ```
 ```
 cd code-infinity-test-1
