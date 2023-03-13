@@ -28,9 +28,9 @@ try{
     $database->createCollection('people', [
         'validator' => [
             'id_number' => ['$type' => 'string', '$regex' => "^[0-9]{13}$"],
-            'first_name' => ['$type' => 'string'],
-            'last_name' => ['$type' => 'string'],
-            'date_of_birth' => ['$type' => 'string', '$regex' => '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'],
+            'first_name' => ['$type' => 'string', '$regex' => '^[A-Za-z]+$'],
+            'last_name' => ['$type' => 'string', '$regex' => '^[A-Za-z]+$'],
+            'date_of_birth' => ['$type' => 'string', '$regex' => '^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$'],
         ]
     ]);
 

@@ -29,14 +29,14 @@ Home
             <div class="col-md-6">
                 <div class="form-group">
                     <label class="form-label" for="first_name">First name</label>
-                    <input type="text" id="first_name" name="first_name" class="form-control" placeholder="First name"
-                        required />
+                    <input type="text" id="first_name" name="first_name" onchange="trim(event)" pattern="^[A-Za-z]+$" class="form-control"
+                        placeholder="First name" required />
                 </div>
             </div>
             <div class="form-group col-md-6">
                 <label class="form-label" for="last_name">Last name</label>
-                <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last name"
-                    required />
+                <input type="text" id="last_name" name="last_name" onchange="trim(event)" pattern="^[A-Za-z]+$" class="form-control"
+                    placeholder="Last name" required />
             </div>
             <div class="form-group col-md-6">
                 <label class="form-label" for="date_of_birth">Date of birth</label>
@@ -94,8 +94,11 @@ Home
                     $('#last_name').prop('disabled', false);
                     $('#last_name').val(person.last_name);
 
+
                     $('#date_of_birth').prop('disabled', false);
-                    $('#date_of_birth').val(person.date_of_birth);
+                    const date = person.date_of_birth.split('/');
+                    const dateOfBirth = `${date[2]}-${date[1]}-${date[0]}`;
+                    $('#date_of_birth').val(dateOfBirth);
 
                     // Keep the submit button disabled and only enable cancel button
                     $('#cancel_btn').prop('disabled', false);
@@ -139,6 +142,10 @@ Home
     function resetForm() {
         $('#person_form').trigger("reset");
         $('#submit_btn').prop('disabled', false);
+    }
+
+    function trim(event) {
+        event.target.value = event.target.value.trim();
     }
 </script>
 {% endblock scripts %}

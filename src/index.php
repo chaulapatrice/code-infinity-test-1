@@ -55,11 +55,19 @@ $app->map(['GET', 'POST'], '/', function (Request $request, Response $response, 
 
             try {
 
+                $first_name = trim($payload['first_name']);
+                $last_name = trim($payload['last_name']);
+
+                $date = explode('-',$payload['date_of_birth']);
+
+                $date_of_birth = $date[2] . "/" . $date[1] . "/" . $date[0];
+
+
                 $result = $people->insertOne([
                     'id_number' => $payload['id_number'],
-                    'first_name' => $payload['first_name'],
-                    'last_name' => $payload['last_name'],
-                    'date_of_birth' => $payload['date_of_birth'],
+                    'first_name' => $first_name,
+                    'last_name' => $last_name,
+                    'date_of_birth' => $date_of_birth,
                 ]);
 
                 $context['code'] = 1;
