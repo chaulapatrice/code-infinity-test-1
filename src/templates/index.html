@@ -6,7 +6,7 @@ Home
 <div class="container py-3">
     <h1>Welcome</h1>
     <p>Please enter your details in the form below.</p>
-    <div id="errors">
+    <div id="messages">
         {% if code == 1 %}
         <div class="alert alert-success" role="alert">
             <i class="bi bi-check-circle-fill"></i> <span class="fw-bold"> Operation complete! </span> {{message}}
@@ -64,6 +64,8 @@ Home
     function fetchPerson(event) {
 
         const id_number = event.target.value;
+        const messages = document.querySelector('#messages');
+        messages.innerHTML = "";
 
         if (!id_number) return;
 
@@ -79,6 +81,12 @@ Home
                 const { person } = data;
 
                 if (person) {
+
+                    messages.innerHTML = `
+                            <div class="alert alert-info" role="alert">
+                                <i class="bi bi-info-circle-fill"></i> <span class="fw-bold"> Info! </span> We have found your details in our database
+                            </div>
+                            `;
 
                     $('#first_name').prop('disabled', false);
                     $('#first_name').val(person.first_name);
@@ -116,14 +124,14 @@ Home
                 $('#cancel_btn').prop('disabled', false);
 
                 console.error("Error fetching employee", error);
-                const errors = document.querySelector('#errors');
-                if (errors) {
-                    errors.innerHTML = `
+
+
+                messages.innerHTML = `
                     <div class="alert alert-warning" role="alert">
-                       <span class="fw-bold"> Info! </span> Could not check if you ID exists in our system.
+                        <i class="bi bi-info-circle-fill"></i> <span class="fw-bold"> Info! </span> Could not check if you ID exists in our system.
                     </div>
                     `;
-                }
+
             }
         });
     }
