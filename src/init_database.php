@@ -38,8 +38,7 @@ try{
 
     $people->createIndex(['id_number' => 1], ['unique' => true]);
 
-    echo "Operation complete! database initialization successful 🚀 \n.";
-    print_r($result);
+    echo "Operation complete! database initialization successful 🚀 .\n";
 } catch(Exception $e){
     echo "Operation failed! database initialization failed.\n";
     echo $e;
